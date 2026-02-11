@@ -1,15 +1,13 @@
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { restaurantsData } from "../data/restaurantsData";
+import { getRestaurantById } from "../data/restaurantsDB";
+
 
 export default function RestaurantPage() {
   const { restaurantId } = useParams();
 
-  const restaurant = restaurantsData.find(
-    (r) => r.id === Number(restaurantId)
-  );
-
-  const menu = restaurant?.menu;
+  const restaurant = getRestaurantById(restaurantId);
+const menu = restaurant?.menu;
 
   const [activeTab, setActiveTab] = useState("All Items");
   const [query, setQuery] = useState("");

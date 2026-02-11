@@ -1,18 +1,12 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { addRestaurant } from "../data/restaurantsDB";
 
-export default function MerchantLanding() {
-  return (
-    <main className="max-w-4xl mx-auto px-6 py-10">
-      <h1 className="text-2xl font-semibold">YumDrop for Merchants</h1>
-      <p className="text-gray-600 mt-2">
-        Coming soon: restaurant registration flow.
-      </p>
-
-      <div className="mt-6">
-        <Link className="underline" to="/">
-          ← Back to Home
-        </Link>
-      </div>
-    </main>
-  );
-}
+const CATEGORY_OPTIONS = [
+  { id: "burger", label: "Burger" },
+  { id: "pizza", label: "Pizza" },
+  { id: "sushi", label: "Sushi" },
+  { id: "healthy", label: "Healthy" },
+  { id: "tacos", label: "Tacos" },
+  { id: "asian", label: "Asian" },
+];
