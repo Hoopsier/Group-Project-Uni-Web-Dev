@@ -4,7 +4,6 @@ export default function RestaurantCard({ restaurant, onSelect }) {
     cuisine,
     rating,
     eta,
-    deliveryFee,
     isClosed,
     opensAt,
   } = restaurant;
@@ -43,3 +42,14 @@ export default function RestaurantCard({ restaurant, onSelect }) {
               <span>{eta}</span>
             </span>
           </div>
+        </div>
+
+        {isClosed && (
+          <div className="mt-4 w-full border border-gray-300 py-2 text-sm font-medium text-center">
+            Schedule Order
+          </div>
+        )}
+      </div>
+    </button>
+  );
+}
