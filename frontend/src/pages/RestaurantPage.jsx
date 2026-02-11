@@ -71,3 +71,84 @@ export default function RestaurantPage() {
           <p className="text-xs text-gray-500">Delivery Time</p>
           <p className="font-semibold mt-1">{restaurant.eta}</p>
         </div>
+<div className="border border-gray-200 p-4">
+          <p className="text-xs text-gray-500">Min Order</p>
+          <p className="font-semibold mt-1">$15.00</p>
+        </div>
+
+        <div className="border border-gray-200 p-4">
+          <p className="text-xs text-gray-500">Delivery Fee</p>
+          <p className="font-semibold mt-1">{restaurant.deliveryFee}</p>
+        </div>
+      </section>
+
+      <div className="mt-6 border-t border-gray-200" />
+
+      {/* Search */}
+      <section className="mt-6">
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="border border-gray-300 px-4 py-2 w-full"
+          placeholder="Search menu items..."
+        />
+      </section>
+
+      {/* Tabs */}
+      <section className="mt-4 border-b border-gray-200">
+        <div className="flex gap-6 overflow-x-auto">
+          {(menu?.tabs ?? ["All Items"]).map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              onClick={() => setActiveTab(tab)}
+              className={[
+                "py-3 text-sm whitespace-nowrap",
+                activeTab === tab ? "border-b-2 border-black font-semibold" : "text-gray-600",
+              ].join(" ")}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Menu list */}
+      <section className="mt-6">
+        <h2 className="font-semibold">{activeTab}</h2>
+
+        <div className="mt-4 space-y-4">
+          {filteredItems.map((item) => (
+            <div key={item.id} className="border border-gray-200 p-4 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-gray-100 border border-gray-200 grid place-items-center text-gray-400">
+                  ×
+                </div>
+
+                <div>
+                  <p className="font-semibold">{item.name}</p>
+                  <p className="text-sm text-gray-600">{item.desc}</p>
+                  <p className="font-semibold mt-1">${item.price.toFixed(2)}</p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="border border-gray-300 w-10 h-10 grid place-items-center hover:border-black"
+                aria-label={`Add ${item.name}`}
+              >
+                +
+              </button>
+            </div>
+          ))}
+
+          {filteredItems.length === 0 && (
+            <div className="border border-gray-200 bg-gray-50 p-6 text-gray-600">
+              No items match your search.
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
+  );
+}
