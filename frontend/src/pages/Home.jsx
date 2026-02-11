@@ -49,4 +49,36 @@ export default function Home() {
         </div>
       </section>
 
-      
+        <section className="mt-10">
+        <h2 className="text-lg font-semibold">Categories</h2>
+
+        {/* DEBUG (puedes borrarlo luego) */}
+        <p className="text-sm text-gray-500 mt-2">
+          Active: {activeCategory}
+        </p>
+
+        <div className="mt-4">
+          <CategoryRow
+            categories={categories}
+            activeId={activeCategory}
+            onChange={setActiveCategory}
+          />
+        </div>
+      </section>
+
+      <RestaurantListSection
+        title="Featured Restaurants"
+        restaurants={featured}
+        isLoading={false}
+        onSelectRestaurant={handleSelectRestaurant}
+      />
+
+      <Link
+        to="/merchants"
+        className="mt-10 inline-block bg-black text-white px-6 py-2 font-medium"
+      >
+        List Your Restaurant
+      </Link>
+    </main>
+  );
+}
