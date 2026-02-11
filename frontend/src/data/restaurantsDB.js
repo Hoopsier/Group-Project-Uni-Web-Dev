@@ -81,3 +81,70 @@ const seed = [
     },
   },
 ];
+
+function load() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return seed;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return seed;
+  }
+}
+
+function save(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+export function getRestaurants() {
+  return load();
+}
+
+export function getRestaurantById(id) {
+  return load().find((r) => r.id === Number(id));
+}
+
+export function addRestaurant(restaurantInput) {
+  const data = load();
+  const nextId = data.reduce((max, r) => Math.max(max, r.id), 0) + 1;
+
+  const newRestaurant = {
+    id: nextId,
+    name: restaurantInput.name,
+    cuisine: restaurantInput.cuisine,
+    categoryId: restaurantInput.categoryId,
+    rating: restaurantInput.rating ?? 0,
+    eta: restaurantInput.eta ?? '30–40 min',
+    deliveryFee: restaurantInput.deliveryFee ?? '$0.00',
+    isClosed: restaurantInput.isClosed ?? false,
+    menu: restaurantInput.menu ?? { tabs: ['All Items'], items: [] },
+  };
+
+  const updated = [newRestaurant, ...data];
+  save(updated);
+  return newRestaurant;
+}
+
+export function addMenuItem(restaurantId, item) {
+  const data = load();
+  const idNum = Number(restaurantId);
+
+  const updated = data.map((r) => {
+    if (r.id !== idNum) return r;
+
+    const menu = r.menu ?? { tabs: ['All Items'], items: [] };
+    const tab = item.tab ?? 'All Items';
+
+    const tabs = menu.tabs.includes(tab) ? menu.tabs : [...menu.tabs, tab];
+
+    return {
+      ...r,
+      menu: {
+        tabs,
+        items: [{ ...item, id: item.id ?? crypto.randomUUID() }, ...menu.items],
+      },
+    };
+  });
+
+  save(updated);
+}

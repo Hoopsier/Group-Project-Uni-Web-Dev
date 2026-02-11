@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { restaurantsData } from "../data/restaurantsData";
 import CategoryRow from "../components/CategoryRow";
 import { categories } from "../data/categories";
-import { mockRestaurants } from "../data/mockRestaurants";
+import { getRestaurants } from "../data/restaurantsDB";
+
 
 // Restaurant list section
 import RestaurantListSection from "../components/restaurants/RestaurantListSection";
@@ -14,10 +15,12 @@ export default function Home() {
 
   const navigate = useNavigate();
 
+const restaurants = useMemo(() => getRestaurants(), []);
 const featured = useMemo(() => {
-  const filtered = restaurantsData.filter((r) => r.categoryId === activeCategory);
-  return filtered.length ? filtered : restaurantsData;
-}, [activeCategory]);
+  const filtered = restaurants.filter((r) => r.categoryId === activeCategory);
+  return filtered.length ? filtered : restaurants;
+}, [restaurants, activeCategory]);
+
 
 
   const handleSelectRestaurant = (restaurant) => {
