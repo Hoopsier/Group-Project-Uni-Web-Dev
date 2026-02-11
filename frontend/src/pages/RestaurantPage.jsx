@@ -1,16 +1,15 @@
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { mockRestaurants } from "../data/mockRestaurants";
-import { mockRestaurantMenus } from "../data/mockRestaurantMenus";
+import { restaurantsData } from "../data/restaurantsData";
 
 export default function RestaurantPage() {
   const { restaurantId } = useParams();
-  const restaurant = useMemo(() => {
-    const id = Number(restaurantId);
-    return mockRestaurants.find((r) => r.id === id);
-  }, [restaurantId]);
 
-  const menu = restaurant ? mockRestaurantMenus[restaurant.id] : null;
+  const restaurant = restaurantsData.find(
+    (r) => r.id === Number(restaurantId)
+  );
+
+  const menu = restaurant?.menu;
 
   const [activeTab, setActiveTab] = useState("All Items");
   const [query, setQuery] = useState("");

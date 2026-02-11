@@ -61,6 +61,7 @@ export const mockRestaurantMenus = {
         desc: 'Sparkling water 500ml',
         price: 2.49,
       },
+      { id: 'tea', tab: 'Drinks', name: 'Iced Tea', desc: '500ml', price: 2.5 },
     ],
   },
 };

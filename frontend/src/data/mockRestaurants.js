@@ -30,4 +30,14 @@ export const mockRestaurants = [
     isClosed: true,
     opensAt: '5:00 PM',
   },
+  {
+    id: 4,
+    name: 'Asian Fusion',
+    cuisine: 'Asian, Fusion',
+    categoryId: 'asian',
+    rating: 4.9,
+    eta: '35–45 min',
+    deliveryFee: '$3.49',
+    isClosed: false,
+  },
 ];
