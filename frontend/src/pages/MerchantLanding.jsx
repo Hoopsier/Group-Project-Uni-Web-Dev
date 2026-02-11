@@ -86,3 +86,44 @@ export default function MerchantLanding() {
               ))}
             </select>
           </label>
+          <label className="block">
+            <span className="text-sm text-gray-600">Delivery time (ETA)</span>
+            <input
+              value={eta}
+              onChange={(e) => setEta(e.target.value)}
+              className="mt-2 w-full border border-gray-300 px-4 py-2"
+              placeholder="e.g. 35–45 min"
+            />
+          </label>
+
+          <label className="block sm:col-span-2">
+            <span className="text-sm text-gray-600">Delivery fee</span>
+            <input
+              value={deliveryFee}
+              onChange={(e) => setDeliveryFee(e.target.value)}
+              className="mt-2 w-full border border-gray-300 px-4 py-2"
+              placeholder="e.g. $3.49"
+            />
+          </label>
+        </div>
+
+        <div className="mt-6 flex items-center gap-3">
+          <button
+            type="submit"
+            disabled={!canSubmit}
+            className={[
+              "px-6 py-2 font-medium",
+              canSubmit ? "bg-black text-white" : "bg-gray-200 text-gray-500 cursor-not-allowed",
+            ].join(" ")}
+          >
+            Create restaurant
+          </button>
+
+          <span className="text-sm text-gray-500">
+            This will create a restaurant + empty menu.
+          </span>
+        </div>
+      </form>
+    </main>
+  );
+}
