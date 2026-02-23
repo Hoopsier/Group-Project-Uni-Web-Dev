@@ -11,9 +11,9 @@ const getAllRestaurants = async (req, res) => {
 
 const createRestaurant = async (req, res) => {
   try {
-    const { street, city, postal_code, rating_list = [], items = [], image } = req.body;
+    const { street, city, postal_code, items = [], image } = req.body;
 
-    const newRestaurant = await Restaurant.addOne(street, city, postal_code, rating_list, items, image);
+    const newRestaurant = await Restaurant.addOne(street, city, postal_code, items, image);
 
     if (newRestaurant) {
       res.status(201).json(newRestaurant);
