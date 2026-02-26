@@ -154,14 +154,22 @@ const deleteOne = async (id) => {
 const getAllItems = async () => {
   const restaurants = await Restaurant.find(
     { "items.0": { $exists: true } }, // get only **sexist** restaurants with items. Also where the hell is the documentation for this?
-    "items _id"
+    "items _id rating"
   );
-  let data = "";
+  let data = "{";
+  let itemSwap;
   for (let i = 0; i < restaurants.length; i++) {
-    id = restaurants[i]._id;
-    items = JSON.stringify(restaurants[i].items);
-    data += "id: " + id + ": " + items + "\n";
+    itemSwap = "";
+    const id = restaurants[i]._id;
+    const rating = JSON.stringify(restaurants[i].rating);
+    items = restaurants[i].items;
+    items.forEach(item => {
+      itemSwap += item.name + ", ";
+    });
+    items = itemSwap;
+    data += "id: " + id + " rating: " + rating + " items: " + items;
   }
+  data += "}"
   return data;
 }
 
