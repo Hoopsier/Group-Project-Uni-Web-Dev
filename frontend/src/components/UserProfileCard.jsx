@@ -1,6 +1,33 @@
 import React from "react";
+import { useEffect, useState } from "react";
 
-function UserProfileCard() {
+
+function UserProfileCard({ userId }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/users/${userId}`);
+
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchUser();
+    }
+  }, [userId]);
+
+  if (loading) return <p>Loading...</p>;
+  if (!user) return <p>User not found</p>;
+
   return (
     <div className="border-[#D1D5DC] p-4 rounded-lg shadow-md w-full  ">
       <div className="flex items-start space-x-4">
