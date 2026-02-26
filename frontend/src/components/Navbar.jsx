@@ -19,16 +19,18 @@ function Navbar() {
               />
             </NavLink>
           </div>
-
+             {/* Desktop Delivery Address */}
           <div className="hidden lg:flex flex-1 justify-center">
-            <div className="flex items-center gap-2 border border-gray-300 rounded px-5 py-2.5 hover:text-blue-500 cursor-pointer hover:border-blue-500 transition-all shadow-sm w-full max-w-xs justify-center">
+            <NavLink
+              to="/checkout"
+              className="flex items-center gap-2 border border-gray-300 rounded-full px-5 py-2.5 hover:text-blue-500 hover:border-blue-500 transition-all shadow-sm w-full max-w-xs justify-center"
+            >
               <MapPinIcon className="w-5 h-5" />
               <span className="text-sm md:text-base font-medium">
                 Delivery address
               </span>
-            </div>
+            </NavLink>
           </div>
-
           <div className="flex items-center justify-end lg:justify-center xl:justify-center gap-3 md:gap-6 lg:flex-1">
             <NavLink to="/login">
               <button className="flex items-center gap-2 hover:text-blue-500 transition-colors">
@@ -52,11 +54,15 @@ function Navbar() {
           </div>
         </div>
 
+    {/* Mobile Delivery Address */}
         <div className="mt-3 lg:hidden">
-          <div className="flex items-center justify-center gap-2 border border-gray-300 rounded-full px-4 py-2.5 hover:text-blue-500 cursor-pointer hover:border-blue-500 transition-all mx-auto max-w-md w-full">
+          <NavLink
+            to="/checkout"
+            className="flex items-center justify-center gap-2 border border-gray-300 rounded-full px-4 py-2.5 hover:text-blue-500 hover:border-blue-500 transition-all mx-auto max-w-md w-full"
+          >
             <MapPinIcon className="w-5 h-5" />
             <span className="text-sm">Delivery address</span>
-          </div>
+          </NavLink>
         </div>
       </div>
     </nav>
