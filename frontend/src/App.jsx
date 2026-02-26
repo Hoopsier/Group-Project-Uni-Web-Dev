@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import RestaurantView from "./pages/RestaurantView";
 import SignUp from "./pages/SignUp";
 import RestaurantRegister from "./pages/RestaurantRegister";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/restaurant-view" element={<RestaurantView />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/restaurant-register" element={<RestaurantRegister />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <Footer />
     </Router>

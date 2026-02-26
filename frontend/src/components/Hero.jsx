@@ -36,7 +36,7 @@ export default function Hero() {
   };
   
   return (
-    <div>
+    <div className="overflow-x-hidden">
 
       {/* Hero Section */}
       
@@ -50,7 +50,7 @@ export default function Hero() {
       />          
       </p>
         </div>
-        <div className={`absolute left-350 top-3 w-50 h-50 rounded-full bg-cover bg-center
+        <div className={`hidden sm:block absolute right-5 top-3 w-48 h-48 rounded-full bg-cover bg-center
               shadow-[0_10px_25px_rgba(0,0,0,0.25),0_25px_60px_rgba(0,0,0,0.35)]
               transition-transform duration-300 hover:scale-105
               ${imageVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}
