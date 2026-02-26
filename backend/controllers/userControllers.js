@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 exports.registerUser = async (req, res) => {
     try {
         const { name, email, password, phone } = req.body;
+        
         const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(400).json({ message: "User already exists" });
 
@@ -13,12 +14,18 @@ exports.registerUser = async (req, res) => {
 
         const newUser = new User({ name, email, password: hashedPassword, phone });
         await newUser.save();
-        res.status(201).json({ message: "User registered successfully!" });
+
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+        res.status(201).json({
+            message: "User registered successfully!",
+            token,
+            user: { id: newUser._id, name: newUser.name, email: newUser.email }
+        });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
-
 exports.loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -28,7 +35,7 @@ exports.loginUser = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ message: "Invalid email or password" });
 
-        const token = jwt.sign({ id: user._id }, "your_jwt_secret", { expiresIn: '1d' });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
         res.json({ token, user: { id: user._id, name: user.name, role: user.role } });
     } catch (err) {
         res.status(500).json({ message: "Server error" });
