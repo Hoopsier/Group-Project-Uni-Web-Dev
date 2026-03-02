@@ -1,43 +1,5 @@
-export const mockRestaurants = [
-  {
-    id: 1,
-    name: 'Pizza Palace',
-    cuisine: 'Pizza, Italian',
-    categoryId: 'pizza',
-    rating: 4.5,
-    eta: '25–35 min',
-    deliveryFee: '$2.99',
-    isClosed: false,
-  },
-  {
-    id: 2,
-    name: 'Burger House',
-    cuisine: 'Burgers, Fast Food',
-    categoryId: 'burger',
-    rating: 4.8,
-    eta: '20–30 min',
-    deliveryFee: '$1.99',
-    isClosed: false,
-  },
-  {
-    id: 3,
-    name: 'Sushi Master',
-    cuisine: 'Sushi, Japanese',
-    categoryId: 'sushi',
-    rating: 4.7,
-    eta: '30–40 min',
-    deliveryFee: '$3.99',
-    isClosed: true,
-    opensAt: '5:00 PM',
-  },
-  {
-    id: 4,
-    name: 'Healthy Bowls',
-    cuisine: 'Healthy, Bowls',
-    categoryId: 'healthy',
-    rating: 4.6,
-    eta: '15–25 min',
-    deliveryFee: '$2.49',
-    isClosed: false,
-  },
-];
+
+import YoumDropLogo from '../assets/YumDropLogo.svg';
+
+// For Navbar usage
+export default {YoumDropLogo};
