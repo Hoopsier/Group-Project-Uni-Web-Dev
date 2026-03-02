@@ -3,12 +3,15 @@ import UserProfileCard from "../components/UserProfileCard";
 import UserProifleDataBoxCard from "../components/UserProifleDataBoxCard";
 import AccountSettingsCard from "../components/AccountSettingsCard";
 import { UserRdata, AccountSettingsData } from "../data/data.js";
+import { useParams } from "react-router-dom";
 
 function UserProfile() {
+  const { id } = useParams();
+  
   return (
     <div className="p-4 flex flex-col items-center mb-10 ">
       <div className="w-full max-w-2xl lg:max-w-4xl flex flex-col items-center p-6  h-[190vh]  ">
-        <UserProfileCard />
+        <UserProfileCard userId="1" />
         <div className="flex justify-items-start gap-10 mt-20 w-full h-60 ">
           {UserRdata.map((item) => (
             <UserProifleDataBoxCard
