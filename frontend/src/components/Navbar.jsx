@@ -4,8 +4,11 @@ import { NavLink } from "react-router-dom";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { useCart } from "../Cartcontext/CartContext";
+
 
 function Navbar() {
+    const { totalItems, openCart } = useCart();
   return (
     <nav className="bg-white shadow-md w-full">
       <div className="w-full px-4 py-3 lg:py-4">
@@ -43,9 +46,21 @@ function Navbar() {
               </button>
             </NavLink>
 
-            <button className="relative flex items-center gap-2 hover:text-blue-500 transition-colors">
-              <div className="flex items-center justify-center w-9 h-9 rounded-full border border-gray-300">
+            {/* Cart */}
+            <button
+              type="button"
+              onClick={openCart}
+              className="relative flex items-center gap-2 hover:text-blue-500 transition-colors"
+            >
+              <div className="relative flex items-center justify-center w-9 h-9 rounded-full border border-gray-300">
                 <ShoppingCartIcon className="w-5 h-5" />
+
+                {/* Badge */}
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-4.5 h-4.5 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center px-1">
+                    {totalItems}
+                  </span>
+                )}
               </div>
               <span className="text-sm font-medium sm:hidden lg:inline ">
                 Cart
