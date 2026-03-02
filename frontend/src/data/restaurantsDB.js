@@ -158,6 +158,11 @@ export function addRestaurant(restaurantInput) {
 
   const updated = [newRestaurant, ...data];
   save(updated);
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('restaurants:updated'));
+  }
+
   return newRestaurant;
 }
 
