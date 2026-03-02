@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import YoumDropLogo from "../assets/YumDropLogo.svg";
+import { useNavigate } from "react-router-dom";
 
 import {
   EnvelopeIcon,
@@ -13,8 +14,7 @@ import {
 import AuthTabButton from "../components/Ui/AuthTabButton";
 
 const SignUp = () => {
-  // const [activeTab, setActiveTab] = useState("signup");
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -22,6 +22,8 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [showSignupMessage, setShowSignupMessage] = useState(false);
 
@@ -35,9 +37,87 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    const { fullName, email, phoneNumber, password, confirmPassword } =
+      formData;
+
+    if (
+      !fullName.trim() ||
+      !email.trim() ||
+      !phoneNumber.trim() ||
+      !password ||
+      !confirmPassword
+    ) {
+      return "All fields are required";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return "Invalid email format";
+    }
+
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      return "Password must be 8+ chars, include uppercase, lowercase, number and special character";
+    }
+
+    if (password !== confirmPassword) {
+      return "Passwords do not match";
+    }
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login attempt:", formData);
+    setError(null);
+
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch("http://localhost:4000/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+          phone: formData.phoneNumber,
+        }),
+      });
+
+      let data;
+
+      try {
+        data = await response.json();
+      } catch {
+        data = {};
+      }
+      if (!response.ok) {
+        setError(data.message || "Something went wrong");
+        return;
+      }
+
+      alert("Account created successfully!");
+      console.log("User created:", data);
+      setShowSignupMessage(true);
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    } catch (err) {
+      setError("Server not reachable. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -104,12 +184,18 @@ const SignUp = () => {
         </div>
 
         {showSignupMessage && (
-          <div className="flex-1 text-red-500 text-center">
-            <span className="font-medium">Signup is not ready</span>
+          <div className="bg-green-100 text-green-600 p-3 rounded-lg text-sm text-center">
+            Account created successfully! Redirecting to login...
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="bg-red-100 text-red-600 p-3 rounded-lg text-sm text-center">
+              {error}
+            </div>
+          )}
+
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
               Full Name
@@ -121,7 +207,7 @@ const SignUp = () => {
               <input
                 type="text"
                 name="fullName"
-                value={formData.email}
+                value={formData.fullName}
                 onChange={handleChange}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
                 placeholder="full name"
@@ -159,7 +245,7 @@ const SignUp = () => {
                 <PhoneIcon className="h-5 w-5 text-gray-400" />
               </div>
               <input
-                type="number"
+                type="tel"
                 name="phoneNumber"
                 value={formData.phoneNumber}
                 onChange={handleChange}
@@ -186,7 +272,7 @@ const SignUp = () => {
                 value={formData.password}
                 onChange={handleChange}
                 className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
-                placeholder="xxxxxxxxxx"
+                placeholder="minimum 8 characters"
                 required
               />
               <button
@@ -219,7 +305,7 @@ const SignUp = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
-                placeholder="xxxxxxxxxx"
+                placeholder="Re-enter password"
                 required
               />
               <button
@@ -238,9 +324,10 @@ const SignUp = () => {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center group"
           >
-            <span>CREATE ACCOUNT</span>
+            <span> {loading ? "Creating..." : "CREATE ACCOUNT"}</span>
           </button>
         </form>
 

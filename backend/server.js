@@ -7,7 +7,7 @@ const restaurantRoute = require('./routes/restaurantRouter.js');
 const AIRoute = require('./routes/aiRouter.js');
 const foodRoutes = require('./routes/foodRouter.js');
 const userRoutes = require('./routes/users.js');
-
+const cors = require("cors");
 const app = express();
 
 connectDB();
@@ -19,7 +19,7 @@ app.use(morgan('tiny'))
 app.get('/', (req, res) => {
   res.send('API is Running!');
 });
-
+app.use(cors());
 app.use('/users', userRoutes);
 app.use('/foods', foodRoutes);
 app.use("/api/restaurants", restaurantRoute);
