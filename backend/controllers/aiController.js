@@ -8,16 +8,6 @@ const parseModelOutput = (text) => {
   if (!t) return { type: 'error', value: 'EMPTY_RESPONSE' };
   if (t === 'NOT_FOUND') return { type: 'not_found', value: null };
 
-  // Try JSON parse first (expecting an array of ids)
-  if (t.startsWith('[')) {
-    try {
-      const arr = JSON.parse(t);
-      if (Array.isArray(arr) && arr.every(isObjectId)) return { type: 'array', value: arr };
-    } catch (e) {
-      // fall through to regex extraction
-    }
-  }
-
   // If it's a single id string
   if (isObjectId(t)) return { type: 'single', value: t };
 
@@ -31,6 +21,7 @@ const parseModelOutput = (text) => {
 
 const aiRouter = async (req, res) => {
   const { prompt } = req.body
+  console.log(prompt)
   const data = await Restaurant.getAllItems();
   console.log(data)
   // Instruction prompt for Gemini: use the provided prompt value to
@@ -48,14 +39,12 @@ Do not include any explanation or extra text—only the id or NOT_FOUND.
 Try EXTRA HARD to not return NOT_FOUND.
 Here's the data you have: ${data}.`;
   console.log(promptAI)
-
   try {
     const result = await model(promptAI);
     const parsed = parseModelOutput(result.text);
 
     if (parsed.type === 'not_found') return res.json({ output: 'NOT_FOUND' });
     if (parsed.type === 'single') return res.json({ output: parsed.value });
-    if (parsed.type === 'array') return res.json({ output: parsed.value });
 
     // Unknown/invalid format: return raw text but indicate format issue
     return res.status(502).json({ error: 'Invalid model response format', raw: result.text });
