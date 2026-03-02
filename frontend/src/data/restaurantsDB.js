@@ -80,6 +80,42 @@ const seed = [
       ],
     },
   },
+  {
+    id: 3,
+    name: 'Healthy Bowl',
+    cuisine: 'Healthy, Vegan',
+    categoryId: 'healthy',
+    rating: 4.7,
+    eta: '30–40 min',
+    deliveryFee: '$3.49',
+    isClosed: false,
+    menu: {
+      tabs: ['All Items', 'Bowls', 'Drinks'],
+      items: [
+        {
+          id: 'avocado',
+          tab: 'Bowls',
+          name: 'Avocado Bowl',
+          desc: 'Avocado, quinoa, greens',
+          price: 12.5,
+        },
+        {
+          id: 'tofu',
+          tab: 'Bowls',
+          name: 'Tofu Bowl',
+          desc: 'Tofu, rice, veggies',
+          price: 11.0,
+        },
+        {
+          id: 'kombucha',
+          tab: 'Drinks',
+          name: 'Kombucha',
+          desc: '330ml',
+          price: 3.5,
+        },
+      ],
+    },
+  },
 ];
 
 function load() {

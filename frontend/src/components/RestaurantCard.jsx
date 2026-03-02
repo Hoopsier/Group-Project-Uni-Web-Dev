@@ -1,5 +1,7 @@
-export default function RestaurantCard({ restaurant }) {
-  return (
+import { Link } from "react-router-dom";
+
+export default function RestaurantCard({ restaurant, to }) {
+  const card = (
     <div className="border rounded-md overflow-hidden">
       <div className="h-90 bg-gray-200 flex items-center justify-center text-xs text-gray-500">
         <img
@@ -10,16 +12,20 @@ export default function RestaurantCard({ restaurant }) {
       </div>
 
       <div className="p-2">
-        <h3 className="text-sm font-semibold truncate">
-          {restaurant.name}
-        </h3>
-        <p className="text-xs text-black-500 truncate">
-          {restaurant.type}
-        </p>
+        <h3 className="text-sm font-semibold truncate">{restaurant.name}</h3>
+        <p className="text-xs text-black-500 truncate">{restaurant.type}</p>
         <p className="text-xs mt-1">
           ⭐ {restaurant.rating} • {restaurant.time} • {restaurant.price}
         </p>
       </div>
     </div>
+  );
+
+  return to ? (
+    <Link to={to} className="block">
+      {card}
+    </Link>
+  ) : (
+    card
   );
 }

@@ -80,8 +80,9 @@ export default function Hero() {
           <RestaurantCard
             key={restaurant.id}
             restaurant={restaurant}
-      />
-  ))}
+            to={`/restaurants/${restaurant.id}`}
+          />
+        ))}
 </div>
 
   </div>
