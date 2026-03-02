@@ -13,10 +13,12 @@ const OrderSummary = ({
       currency,
     }).format(n);
 
-  const handleProceed = () => {
-    // FRONTEND ONLY for now
-    alert("Proceed to Payment clicked! Backend will be added later.");
-  };
+const handleProceed = () => {
+  const paymentSection = document.getElementById("payment-section");
+  if (paymentSection) {
+    paymentSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+};
 
   const isEmpty = subtotal === 0;
 

@@ -9,23 +9,26 @@ import SignUp from "./pages/SignUp";
 import RestaurantRegister from "./pages/RestaurantRegister";
 import UserProfile from "./pages/UserProfile";
 import Checkout from "./pages/Checkout";
-
+import CartView from "./pages/CartView";
+import { CartProvider } from "./Cartcontext/CartContext";
 function App() {
   return (
+  <CartProvider>
     <Router>
       <Navbar />
-
+      <CartView />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/restaurant-view" element={<RestaurantView />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/restaurant-register" element={<RestaurantRegister />} />
-          <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <Footer />
     </Router>
+    </CartProvider>
   );
 }
 

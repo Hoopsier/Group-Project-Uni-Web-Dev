@@ -4,6 +4,8 @@ import DeliveryAddress from "../components/DeliveryAddress";
 import PaymentMethod from "../components/PaymentMethod";
 import OrderSummary from "../components/OrderSummary";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { useCart } from "../Cartcontext/CartContext";
+
 const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState("credit");
   const [address, setAddress] = useState({
@@ -13,10 +15,14 @@ const Checkout = () => {
     instructions: "",
   });
 
-  // later subtotal 
-  const subtotal = 0;
+  const { cartItems } = useCart();
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   const navigate = useNavigate();
+  
   return (
     <main className="bg-gray-50">
     <div className="mx-auto w-full max-w-6xl xl:max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
@@ -34,10 +40,12 @@ const Checkout = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-8 lg:gap-10">
           <section className="space-y-6">
             <DeliveryAddress value={address} onChange={setAddress} />
-            <PaymentMethod
-              method={paymentMethod}
-              setMethod={setPaymentMethod}
-            />
+            <div id="payment-section">
+              <PaymentMethod
+                method={paymentMethod}
+                setMethod={setPaymentMethod}
+              />
+            </div>
 
             <div className="border border-gray-700 bg-gray-300 shadow-sm">
               <div className="border-b border-gray-300 px-4 py-3">
