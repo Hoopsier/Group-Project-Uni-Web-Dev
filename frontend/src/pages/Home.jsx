@@ -12,7 +12,6 @@ export default function Home() {
   useEffect(() => {
     const refresh = () => setRestaurants(getRestaurants());
     window.addEventListener("restaurants:updated", refresh);
-
     return () => window.removeEventListener("restaurants:updated", refresh);
   }, []);
 

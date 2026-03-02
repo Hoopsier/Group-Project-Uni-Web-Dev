@@ -4,6 +4,7 @@ export default function RestaurantCard({ restaurant, onSelect }) {
     cuisine,
     rating,
     eta,
+    deliveryFee,
     isClosed,
     opensAt,
   } = restaurant;
@@ -11,7 +12,10 @@ export default function RestaurantCard({ restaurant, onSelect }) {
   return (
     <button
       type="button"
-      onClick={() => onSelect?.(restaurant)}
+      onClick={() => {
+      console.log("clicked:", restaurant.id);
+      onSelect?.(restaurant);
+      }}
       className="text-left border border-gray-200 bg-white w-full hover:border-gray-400 transition"
     >
       <div className="relative">
@@ -42,13 +46,9 @@ export default function RestaurantCard({ restaurant, onSelect }) {
               <span>{eta}</span>
             </span>
           </div>
-        </div>
 
-        {isClosed && (
-          <div className="mt-4 w-full border border-gray-300 py-2 text-sm font-medium text-center">
-            Schedule Order
-          </div>
-        )}
+          <span className="text-gray-700">{deliveryFee}</span>
+        </div>
       </div>
     </button>
   );

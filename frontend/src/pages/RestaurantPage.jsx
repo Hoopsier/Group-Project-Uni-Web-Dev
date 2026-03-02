@@ -2,31 +2,11 @@ import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getRestaurantById } from "../data/restaurantsDB";
 
-
 export default function RestaurantPage() {
   const { restaurantId } = useParams();
-
   const restaurant = getRestaurantById(restaurantId);
-const menu = restaurant?.menu;
 
-  const [activeTab, setActiveTab] = useState("All Items");
-  const [query, setQuery] = useState("");
-
-  const filteredItems = useMemo(() => {
-    if (!menu) return [];
-    const q = query.trim().toLowerCase();
-
-    return menu.items.filter((item) => {
-      const matchesTab = activeTab === "All Items" ? true : item.tab === activeTab;
-      const matchesQuery =
-        q.length === 0 ||
-        item.name.toLowerCase().includes(q) ||
-        item.desc.toLowerCase().includes(q);
-
-      return matchesTab && matchesQuery;
-    });
-  }, [menu, activeTab, query]);
-
+  // 1) Guard clause: evita que la app se rompa si no existe el restaurante
   if (!restaurant) {
     return (
       <main className="max-w-4xl mx-auto px-6 py-10">
@@ -37,6 +17,28 @@ const menu = restaurant?.menu;
       </main>
     );
   }
+
+  // 2) Menu siempre existe (fallback) para evitar errores
+  const menu = restaurant.menu ?? { tabs: ["All Items"], items: [] };
+
+  const [activeTab, setActiveTab] = useState("All Items");
+  const [query, setQuery] = useState("");
+
+  const filteredItems = useMemo(() => {
+    const q = query.trim().toLowerCase();
+
+    return menu.items.filter((item) => {
+      const matchesTab =
+        activeTab === "All Items" ? true : item.tab === activeTab;
+
+      const matchesQuery =
+        q.length === 0 ||
+        item.name.toLowerCase().includes(q) ||
+        item.desc.toLowerCase().includes(q);
+
+      return matchesTab && matchesQuery;
+    });
+  }, [menu, activeTab, query]);
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-8">
@@ -62,13 +64,14 @@ const menu = restaurant?.menu;
         <p className="text-gray-600 mt-1">{restaurant.cuisine}</p>
       </section>
 
-      {/* Stats row (estructura, luego lo conectas a datos reales) */}
+      {/* Stats row */}
       <section className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="border border-gray-200 p-4">
           <p className="text-xs text-gray-500">Delivery Time</p>
           <p className="font-semibold mt-1">{restaurant.eta}</p>
         </div>
-<div className="border border-gray-200 p-4">
+
+        <div className="border border-gray-200 p-4">
           <p className="text-xs text-gray-500">Min Order</p>
           <p className="font-semibold mt-1">$15.00</p>
         </div>
@@ -94,14 +97,16 @@ const menu = restaurant?.menu;
       {/* Tabs */}
       <section className="mt-4 border-b border-gray-200">
         <div className="flex gap-6 overflow-x-auto">
-          {(menu?.tabs ?? ["All Items"]).map((tab) => (
+          {menu.tabs.map((tab) => (
             <button
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
               className={[
                 "py-3 text-sm whitespace-nowrap",
-                activeTab === tab ? "border-b-2 border-black font-semibold" : "text-gray-600",
+                activeTab === tab
+                  ? "border-b-2 border-black font-semibold"
+                  : "text-gray-600",
               ].join(" ")}
             >
               {tab}
@@ -116,7 +121,10 @@ const menu = restaurant?.menu;
 
         <div className="mt-4 space-y-4">
           {filteredItems.map((item) => (
-            <div key={item.id} className="border border-gray-200 p-4 flex items-center justify-between gap-4">
+            <div
+              key={item.id}
+              className="border border-gray-200 p-4 flex items-center justify-between gap-4"
+            >
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 bg-gray-100 border border-gray-200 grid place-items-center text-gray-400">
                   ×
@@ -125,7 +133,9 @@ const menu = restaurant?.menu;
                 <div>
                   <p className="font-semibold">{item.name}</p>
                   <p className="text-sm text-gray-600">{item.desc}</p>
-                  <p className="font-semibold mt-1">${item.price.toFixed(2)}</p>
+                  <p className="font-semibold mt-1">
+                    ${Number(item.price).toFixed(2)}
+                  </p>
                 </div>
               </div>
 

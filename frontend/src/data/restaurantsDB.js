@@ -116,6 +116,42 @@ const seed = [
       ],
     },
   },
+  {
+    id: 4,
+    name: 'Asian Fusion',
+    cuisine: 'Asian, Fusion',
+    categoryId: 'asian',
+    rating: 4.9,
+    eta: '35–45 min',
+    deliveryFee: '$3.49',
+    isClosed: false,
+    menu: {
+      tabs: ['All Items', 'Mains', 'Starters', 'Drinks'],
+      items: [
+        {
+          id: 'ramen',
+          tab: 'Mains',
+          name: 'Ramen',
+          desc: 'Broth, noodles, egg',
+          price: 14.5,
+        },
+        {
+          id: 'gyoza',
+          tab: 'Starters',
+          name: 'Gyoza',
+          desc: 'Pan-fried dumplings',
+          price: 6.9,
+        },
+        {
+          id: 'tea',
+          tab: 'Drinks',
+          name: 'Iced Tea',
+          desc: '500ml',
+          price: 2.5,
+        },
+      ],
+    },
+  },
 ];
 
 function load() {
@@ -188,4 +224,7 @@ export function addMenuItem(restaurantId, item) {
   });
 
   save(updated);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('restaurants:updated'));
+  }
 }
