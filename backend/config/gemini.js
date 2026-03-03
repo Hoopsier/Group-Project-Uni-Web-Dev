@@ -14,7 +14,7 @@ const model = async (prompt) => {
     const response = await genAI.models.generateContent({
       model: MODEL_NAME,
       contents,
-      config: { temperature: 0.1 },
+      config: { temperature: 0.5 },
     });
 
     if (process.env.DEBUG_GEMINI === "true") {
