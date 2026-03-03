@@ -150,6 +150,29 @@ const deleteOne = async (id) => {
   return result !== null;
 };
 
+/// Returns a strting of id: items list NOTE: O(2n)
+const getAllItems = async () => {
+  const restaurants = await Restaurant.find(
+    { "items.0": { $exists: true } }, // get only **sexist** restaurants with items. Also where the hell is the documentation for this?
+    "items _id rating"
+  );
+  let data = "{";
+  let itemSwap;
+  for (let i = 0; i < restaurants.length; i++) {
+    itemSwap = "";
+    const id = restaurants[i]._id;
+    const rating = JSON.stringify(restaurants[i].rating);
+    items = restaurants[i].items;
+    items.forEach(item => {
+      itemSwap += item.name + ", ";
+    });
+    items = itemSwap;
+    data += "id: " + id + " rating: " + rating + " items: " + items;
+  }
+  data += "}"
+  return data;
+}
+
 module.exports = {
   getAll,
   addOne,
@@ -159,5 +182,6 @@ module.exports = {
   addRating,
   removeImage,
   calculateAverageRating,
+  getAllItems
 };
 
