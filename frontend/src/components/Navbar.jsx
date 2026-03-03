@@ -14,7 +14,7 @@ function Navbar() {
       <div className="w-full px-4 py-3 lg:py-4">
         <div className="max-w-screen-2xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center lg:flex-1">
-            <NavLink to="/home">
+            <NavLink to="/Home">
               <img
                 src={YoumDropLogo}
                 alt="YumDrop Logo"
