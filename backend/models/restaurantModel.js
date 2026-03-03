@@ -6,16 +6,18 @@ const mongoose = require("mongoose");
  * street: string
  * city: string
  * postal_code: int
- * ratings: double[] (0.0 - 5.0)
+ * rating_list: double[] (0.0 - 5.0)
  * rating: double
  * items: Item[]
  */
 
-// (1*ones+2*twos+3*threes+4*fours+5*fives)/(ones+twos+threes+fours+fives)
 const calculateAverageRating = (ratings) => {
-  const mean = (1 * ratings.ones + 2 * ratings.twos + 3 * ratings.threes + 4 * ratings.fours + 5 * ratings.fives)
-    / (ratings.ones + ratings.twos + ratings.threes + ratings.fours + ratings.fives)
-  return Math.round(mean * 10) / 10;
+  if (!Array.isArray(ratings) || ratings.length === 0) return 0.0;
+  const nums = ratings.map(Number).filter(n => !Number.isNaN(n) && n >= 0 && n <= 5);
+  if (nums.length === 0) return 0.0;
+  const sum = nums.reduce((a, b) => a + b, 0);
+  // keep two decimal places
+  return Math.round((sum / nums.length) * 10) / 10;
 };
 
 const restaurantSchema = new mongoose.Schema({
@@ -31,12 +33,15 @@ const restaurantSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  ratings: {
-    ones: { type: Number, default: 0 },
-    twos: { type: Number, default: 0 },
-    threes: { type: Number, default: 0 },
-    fours: { type: Number, default: 0 },
-    fives: { type: Number, default: 0 },
+  rating_list: {
+    type: [Number],
+    default: [],
+    validate: {
+      validator: function (ratings) {
+        return ratings.every((r) => r >= 0 && r <= 5);
+      },
+      message: "All ratings must be between 0 and 5",
+    },
   },
   rating: {
     type: Number,
@@ -54,7 +59,7 @@ const restaurantSchema = new mongoose.Schema({
 
 // Calculate average rating before saving
 restaurantSchema.pre("save", function () {
-  this.rating = Math.round(calculateAverageRating(this.ratings) * 10) / 10;
+  this.rating = Math.round(calculateAverageRating(this.rating_list) * 10) / 10;
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);
@@ -63,17 +68,20 @@ const getAll = async () => {
   return await Restaurant.find();
 };
 
-const addOne = async (street, city, postal_code, items = [], image = null) => {
+const addOne = async (street, city, postal_code, rating_list = [], items = [], image = null) => {
   if (!street || !city || !postal_code) {
     return false;
   }
+
+  const safeRatings = Array.isArray(rating_list) ? rating_list.map(Number).filter(n => !Number.isNaN(n) && n >= 0 && n <= 5) : [];
 
   const newRestaurant = new Restaurant({
     street,
     city,
     postal_code,
-    items: items,
-    image: image,
+    rating_list: safeRatings,
+    items,
+    image,
   });
 
   await newRestaurant.save();
@@ -94,9 +102,9 @@ const updateOneById = async (id, updateData) => {
     if (updateData.items !== undefined) restaurant.items = updateData.items;
     if (updateData.image !== undefined) restaurant.image = updateData.image;
 
-    if (updateData.ratings !== undefined) {
-      const safeRatings = updateData.ratings;
-      restaurant.ratings = safeRatings;
+    if (updateData.rating_list !== undefined) {
+      const safeRatings = Array.isArray(updateData.rating_list) ? updateData.rating_list.map(Number).filter(n => !Number.isNaN(n) && n >= 0 && n <= 5) : [];
+      restaurant.rating_list = safeRatings;
     }
 
     await restaurant.save();
@@ -107,32 +115,16 @@ const updateOneById = async (id, updateData) => {
 
 const addRating = async (id, updateData) => {
   const restaurant = await Restaurant.findById(id);
-  if (!restaurant || updateData.addRating == undefined) {
-    return null;
+  if (restaurant && updateData.addRating !== undefined) {
+    const r = Number(updateData.addRating);
+    if (!Number.isNaN(r) && r >= 0 && r <= 5) {
+      restaurant.rating_list = restaurant.rating_list || [];
+      restaurant.rating_list.push(r);
+      await restaurant.save();
+      return restaurant;
+    }
   }
-  const r = Number(updateData.addRating);
-  if (Number.isNaN(r) || r < 0 || r > 5) { console.log("Get your numbers right! 1-5 please."); return null; }
-  let resRats = restaurant.ratings;
-  switch (r) {
-    case 1:
-      resRats.ones += 1;
-      break;
-    case 2:
-      resRats.twos += 1;
-      break;
-    case 3:
-      resRats.threes += 1;
-      break;
-    case 4:
-      resRats.fours += 1;
-      break;
-    case 5:
-      resRats.fives += 1;
-      break;
-  }
-  restaurant.ratings = resRats;
-  await restaurant.save();
-  return restaurant;
+  return null;
 };
 
 const removeImage = async (id) => {
@@ -150,29 +142,6 @@ const deleteOne = async (id) => {
   return result !== null;
 };
 
-/// Returns a strting of id: items list NOTE: O(2n)
-const getAllItems = async () => {
-  const restaurants = await Restaurant.find(
-    { "items.0": { $exists: true } }, // get only **sexist** restaurants with items. Also where the hell is the documentation for this?
-    "items _id rating"
-  );
-  let data = "{";
-  let itemSwap;
-  for (let i = 0; i < restaurants.length; i++) {
-    itemSwap = "";
-    const id = restaurants[i]._id;
-    const rating = JSON.stringify(restaurants[i].rating);
-    items = restaurants[i].items;
-    items.forEach(item => {
-      itemSwap += item.name + ", ";
-    });
-    items = itemSwap;
-    data += "id: " + id + " rating: " + rating + " items: " + items;
-  }
-  data += "}"
-  return data;
-}
-
 module.exports = {
   getAll,
   addOne,
@@ -182,6 +151,5 @@ module.exports = {
   addRating,
   removeImage,
   calculateAverageRating,
-  getAllItems
 };
 

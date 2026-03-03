@@ -3,8 +3,7 @@
     "@google/genai": "^1.40.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "mongoose": "^9.1.5",
-    "morgan": "^1.10.1"
+    "mongoose": "^9.1.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
