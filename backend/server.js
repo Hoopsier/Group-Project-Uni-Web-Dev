@@ -1,5 +1,4 @@
 require('dotenv').config();
-const morgan = require("morgan")
 const express = require("express");
 const connectDB = require("./config/db.js");
 
@@ -14,14 +13,13 @@ connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan('tiny'))
 
 app.get('/', (req, res) => {
   res.send('API is Running!');
 });
 
-app.use('/users', userRoutes);
-app.use('/foods', foodRoutes);
+app.use('/users', userRoutes);    
+app.use('/foods', foodRoutes);      
 app.use("/api/restaurants", restaurantRoute);
 app.use("/api/ai", AIRoute);
 
