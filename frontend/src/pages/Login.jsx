@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import YoumDropLogo from "../assets/YumDropLogo.svg";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../AuthContext";
 
 import {
   EnvelopeIcon,
@@ -7,10 +10,14 @@ import {
   EyeIcon,
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
+import AuthTabButton from "../components/Ui/AuthTabButton";
 
-import AuthTabButton from "../components/Ui/AuthTabButton"
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [showSignupMessage, setShowSignupMessage] = useState(false);
 
@@ -23,11 +30,44 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login attempt:", formData);
-  };
+    setError("");
+    setLoading(true);
 
+    try {
+      const response = await fetch("http://localhost:4000/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      let data;
+      const contentType = response.headers.get("content-type");
+
+      // Attempt to parse JSON only if the response is JSON
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        // If not JSON, read as text to see what the server actually sent
+        const text = await response.text();
+        throw new Error(
+          `Server returned ${response.status}: ${text || "Empty response"}`,
+        );
+      }
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+
+      login(data.token, data.user);
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen flex">
       {/* Left side Image, logo and text */}
@@ -60,7 +100,9 @@ const Login = () => {
                   Welcome to <span className="text-yellow-300">Yum</span>
                   <span className="text-white">Drop</span>
                 </h2>
-                <p className="text-2xl mb-6 font-medium bg-black/7 rounded-3xl">Delivering happiness to your door</p>
+                <p className="text-2xl mb-6 font-medium bg-black/7 rounded-3xl">
+                  Delivering happiness to your door
+                </p>
                 <div className="h-1 w-24 bg-red-500 mx-auto mb-6"></div>
               </div>
             </div>
@@ -151,12 +193,15 @@ const Login = () => {
               </button>
             </div>
           </div>
-
+          {error && (
+            <div className="text-red-500 text-center mb-4">{error}</div>
+          )}
           <button
+            disabled={loading}
             type="submit"
             className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center group"
           >
-            <span>Sign In</span>
+            <span>{loading ? "Signing in..." : "Sign In"}</span>
           </button>
         </form>
 
