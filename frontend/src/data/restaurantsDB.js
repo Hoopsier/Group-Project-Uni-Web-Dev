@@ -12,6 +12,10 @@ import garlicimg from '../assets/menu/garlicimg.jpg';
 import colaImg from '../assets/menu/colaImg.jpg';
 import friesImg from '../assets/menu/friesImg.jpg';
 import classicBurgerImg from '../assets/menu/classicBurgerImg.jpg';
+import avocadoImg from '../assets/menu/avocadoImg.jpg';
+import kombuchaImg from '../assets/menu/kombuchaImg.jpg';
+import tofuImg from '../assets/menu/tofuImg.jpg';
+import teaImg from '../assets/menu/teaImg.jpg';
 
 const seed = [
   {
@@ -121,6 +125,7 @@ const seed = [
           name: 'Avocado Bowl',
           desc: 'Avocado, quinoa, greens',
           price: 12.5,
+          image: avocadoImg,
         },
         {
           id: 'tofu',
@@ -128,6 +133,7 @@ const seed = [
           name: 'Tofu Bowl',
           desc: 'Tofu, rice, veggies',
           price: 11.0,
+          image: tofuImg,
         },
         {
           id: 'kombucha',
@@ -135,6 +141,7 @@ const seed = [
           name: 'Kombucha',
           desc: '330ml',
           price: 3.5,
+          image: kombuchaImg,
         },
       ],
     },
@@ -158,6 +165,7 @@ const seed = [
           name: 'Ramen',
           desc: 'Broth, noodles, egg',
           price: 14.5,
+          image: ramenImg,
         },
         {
           id: 'gyoza',
@@ -165,6 +173,7 @@ const seed = [
           name: 'Gyoza',
           desc: 'Pan-fried dumplings',
           price: 6.9,
+          image: gyozaImg,
         },
         {
           id: 'tea',
@@ -172,6 +181,7 @@ const seed = [
           name: 'Iced Tea',
           desc: '500ml',
           price: 2.5,
+          image: teaImg,
         },
       ],
     },
