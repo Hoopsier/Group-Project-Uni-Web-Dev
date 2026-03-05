@@ -6,7 +6,7 @@ export default function RestaurantPage() {
   const { restaurantId } = useParams();
   const restaurant = getRestaurantById(restaurantId);
 
-  // 1) Guard clause: evita que la app se rompa si no existe el restaurante
+  // Guard clause: avoid crashing if restaurant is missing
   if (!restaurant) {
     return (
       <main className="max-w-4xl mx-auto px-6 py-10">
@@ -18,7 +18,6 @@ export default function RestaurantPage() {
     );
   }
 
-  // 2) Menu siempre existe (fallback) para evitar errores
   const menu = restaurant.menu ?? { tabs: ["All Items"], items: [] };
 
   const [activeTab, setActiveTab] = useState("All Items");
@@ -28,9 +27,7 @@ export default function RestaurantPage() {
     const q = query.trim().toLowerCase();
 
     return menu.items.filter((item) => {
-      const matchesTab =
-        activeTab === "All Items" ? true : item.tab === activeTab;
-
+      const matchesTab = activeTab === "All Items" ? true : item.tab === activeTab;
       const matchesQuery =
         q.length === 0 ||
         item.name.toLowerCase().includes(q) ||
@@ -46,9 +43,18 @@ export default function RestaurantPage() {
         ← Back to Home
       </Link>
 
-      {/* Hero image placeholder */}
-      <section className="mt-4 border border-gray-200 bg-gray-100 h-40 grid place-items-center text-gray-400 relative">
-        ×
+      {/* Hero banner */}
+      <section className="mt-4 border border-gray-200 bg-gray-100 h-40 relative overflow-hidden">
+        {restaurant.coverImage ? (
+          <img
+            src={restaurant.coverImage}
+            alt={`${restaurant.name} cover`}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full grid place-items-center text-gray-400">×</div>
+        )}
+
         <button
           type="button"
           className="absolute top-3 right-3 border border-gray-300 bg-white w-10 h-10 grid place-items-center"
@@ -64,7 +70,7 @@ export default function RestaurantPage() {
         <p className="text-gray-600 mt-1">{restaurant.cuisine}</p>
       </section>
 
-      {/* Stats row */}
+      {/* Stats */}
       <section className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="border border-gray-200 p-4">
           <p className="text-xs text-gray-500">Delivery Time</p>
@@ -104,9 +110,7 @@ export default function RestaurantPage() {
               onClick={() => setActiveTab(tab)}
               className={[
                 "py-3 text-sm whitespace-nowrap",
-                activeTab === tab
-                  ? "border-b-2 border-black font-semibold"
-                  : "text-gray-600",
+                activeTab === tab ? "border-b-2 border-black font-semibold" : "text-gray-600",
               ].join(" ")}
             >
               {tab}
@@ -126,16 +130,22 @@ export default function RestaurantPage() {
               className="border border-gray-200 p-4 flex items-center justify-between gap-4"
             >
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-gray-100 border border-gray-200 grid place-items-center text-gray-400">
-                  ×
+                <div className="w-14 h-14 bg-gray-100 border border-gray-200 overflow-hidden">
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full grid place-items-center text-gray-400">×</div>
+                  )}
                 </div>
 
                 <div>
                   <p className="font-semibold">{item.name}</p>
                   <p className="text-sm text-gray-600">{item.desc}</p>
-                  <p className="font-semibold mt-1">
-                    ${Number(item.price).toFixed(2)}
-                  </p>
+                  <p className="font-semibold mt-1">${Number(item.price).toFixed(2)}</p>
                 </div>
               </div>
 

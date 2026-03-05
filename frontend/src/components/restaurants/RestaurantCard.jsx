@@ -18,18 +18,17 @@ export default function RestaurantCard({ restaurant, onSelect }) {
       }}
       className="text-left border border-gray-200 bg-white w-full hover:border-gray-400 transition"
     >
-      <div className="relative">
-        <div className="h-36 bg-gray-100 border-b border-gray-200 grid place-items-center text-gray-400">
-          ×
-        </div>
-
-        {isClosed && (
-          <div className="absolute top-0 left-0 right-0 bg-black text-white text-xs px-3 py-2 flex items-center justify-between">
-            <span className="font-semibold tracking-wide">CLOSED</span>
-            <span className="opacity-90">Opens at {opensAt ?? "—"}</span>
-          </div>
-        )}
-      </div>
+      <div className="h-36 bg-gray-100 border-b border-gray-200 overflow-hidden">
+  {restaurant.coverImage ? (
+    <img
+      src={restaurant.coverImage}
+      alt={`${restaurant.name} cover`}
+      className="w-full h-full object-cover"
+    />
+  ) : (
+    <div className="w-full h-full grid place-items-center text-gray-400">×</div>
+  )}
+</div>
 
       <div className="p-4">
         <h3 className="font-semibold text-base">{name}</h3>

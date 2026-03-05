@@ -1,4 +1,15 @@
 const STORAGE_KEY = 'yumdrop_restaurants_v1';
+import pizzaCover from '../assets/restaurants/pizza-palace.jpg';
+import burgerCover from '../assets/restaurants/burger-house.jpg';
+import healthyCover from '../assets/restaurants/healthy-bowl.jpg';
+import asianCover from '../assets/restaurants/asian-fusion.jpg';
+
+import margImg from '../assets/menu/margherita.jpg';
+import pepImg from '../assets/menu/pepperoni.jpg';
+import ramenImg from '../assets/menu/ramen.jpg';
+import gyozaImg from '../assets/menu/gyoza.jpg';
+import garlicimg from '../assets/menu/garlicimg.jpg';
+import colaImg from '../assets/menu/colaImg.jpg';
 
 const seed = [
   {
@@ -10,6 +21,7 @@ const seed = [
     eta: '25–35 min',
     deliveryFee: '$2.99',
     isClosed: false,
+    coverImage: pizzaCover,
     menu: {
       tabs: ['All Items', 'Pizzas', 'Starters', 'Drinks'],
       items: [
@@ -19,6 +31,7 @@ const seed = [
           name: 'Margherita',
           desc: 'Tomato, mozzarella, basil',
           price: 12.99,
+          image: margImg,
         },
         {
           id: 'pep',
@@ -26,6 +39,7 @@ const seed = [
           name: 'Pepperoni',
           desc: 'Mozzarella, pepperoni',
           price: 14.99,
+          image: pepImg,
         },
         {
           id: 'garlic',
@@ -33,6 +47,7 @@ const seed = [
           name: 'Garlic Bread',
           desc: 'Garlic butter, herbs',
           price: 5.99,
+          image: garlicimg,
         },
         {
           id: 'cola',
@@ -40,6 +55,7 @@ const seed = [
           name: 'Coca Cola',
           desc: '500ml',
           price: 2.99,
+          image: colaImg,
         },
       ],
     },
@@ -53,6 +69,7 @@ const seed = [
     eta: '20–30 min',
     deliveryFee: '$1.99',
     isClosed: false,
+    coverImage: burgerCover,
     menu: {
       tabs: ['All Items', 'Burgers', 'Sides', 'Drinks'],
       items: [
