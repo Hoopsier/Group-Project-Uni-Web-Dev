@@ -25,7 +25,7 @@ const categories = [
   { id: "H", label: "Healthy" },
 ];
 
-// dummy restaurants 
+// dummy restaurants  
 const restaurants = [
   {
     id: 1,
