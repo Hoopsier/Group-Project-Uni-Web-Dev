@@ -28,6 +28,11 @@ const aiRouter = async (req, res) => {
   // determine which Mongoose ObjectId(s) should be returned. The model
   // should reply with either a single ObjectId string, or a JSON array
   // of ObjectId strings. If no matching record exists, respond with NOT_FOUND.
+  ///NOTE:Temporary test boolean
+  const test = false
+  if (test) {
+    return res.status(200).json({ output: "698eeb564ce9258475e6ecda" })
+  }
   const promptAI = `You are an assistant that uses the items of the given short query to assume which restaurant's id to return.
 If a restaurant has no items, there is no reason to concider returning it.
 If a restaurant doesn't have the item in the query, there is no reason to concider returining it's id.

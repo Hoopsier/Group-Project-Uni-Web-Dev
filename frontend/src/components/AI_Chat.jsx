@@ -8,7 +8,7 @@ export default function AI_Chat() {
   const navigate = useNavigate()
   return (
     <div>
-      <p>Result: {(result !== "") && (<button onClick={() => {
+      <p>Result: {(result !== "" && result != null) && (<button onClick={() => {
         console.log("should nav to", result)
         navigate(`/${result}`)
       }}>Go To Resaurant</button>)}</p>
