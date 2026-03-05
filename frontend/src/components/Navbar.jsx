@@ -4,14 +4,17 @@ import { NavLink } from "react-router-dom";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { useCart } from "../Cartcontext/CartContext";
+
 
 function Navbar() {
+    const { totalItems, openCart } = useCart();
   return (
     <nav className="bg-white shadow-md w-full">
       <div className="w-full px-4 py-3 lg:py-4">
         <div className="max-w-screen-2xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center lg:flex-1">
-            <NavLink to="/">
+            <NavLink to="/Home">
               <img
                 src={YoumDropLogo}
                 alt="YumDrop Logo"
@@ -19,16 +22,18 @@ function Navbar() {
               />
             </NavLink>
           </div>
-
+             {/* Desktop Delivery Address */}
           <div className="hidden lg:flex flex-1 justify-center">
-            <div className="flex items-center gap-2 border border-gray-300 rounded px-5 py-2.5 hover:text-blue-500 cursor-pointer hover:border-blue-500 transition-all shadow-sm w-full max-w-xs justify-center">
+            <NavLink
+              to="/checkout"
+              className="flex items-center gap-2 border border-gray-300 rounded-full px-5 py-2.5 hover:text-blue-500 hover:border-blue-500 transition-all shadow-sm w-full max-w-xs justify-center"
+            >
               <MapPinIcon className="w-5 h-5" />
               <span className="text-sm md:text-base font-medium">
                 Delivery address
               </span>
-            </div>
+            </NavLink>
           </div>
-
           <div className="flex items-center justify-end lg:justify-center xl:justify-center gap-3 md:gap-6 lg:flex-1">
             <NavLink to="/login">
               <button className="flex items-center gap-2 hover:text-blue-500 transition-colors">
@@ -41,9 +46,21 @@ function Navbar() {
               </button>
             </NavLink>
 
-            <button className="relative flex items-center gap-2 hover:text-blue-500 transition-colors">
-              <div className="flex items-center justify-center w-9 h-9 rounded-full border border-gray-300">
+            {/* Cart */}
+            <button
+              type="button"
+              onClick={openCart}
+              className="relative flex items-center gap-2 hover:text-blue-500 transition-colors"
+            >
+              <div className="relative flex items-center justify-center w-9 h-9 rounded-full border border-gray-300">
                 <ShoppingCartIcon className="w-5 h-5" />
+
+                {/* Badge */}
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-4.5 h-4.5 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center px-1">
+                    {totalItems}
+                  </span>
+                )}
               </div>
               <span className="text-sm font-medium sm:hidden lg:inline ">
                 Cart
@@ -52,11 +69,15 @@ function Navbar() {
           </div>
         </div>
 
+    {/* Mobile Delivery Address */}
         <div className="mt-3 lg:hidden">
-          <div className="flex items-center justify-center gap-2 border border-gray-300 rounded-full px-4 py-2.5 hover:text-blue-500 cursor-pointer hover:border-blue-500 transition-all mx-auto max-w-md w-full">
+          <NavLink
+            to="/checkout"
+            className="flex items-center justify-center gap-2 border border-gray-300 rounded-full px-4 py-2.5 hover:text-blue-500 hover:border-blue-500 transition-all mx-auto max-w-md w-full"
+          >
             <MapPinIcon className="w-5 h-5" />
             <span className="text-sm">Delivery address</span>
-          </div>
+          </NavLink>
         </div>
       </div>
     </nav>
