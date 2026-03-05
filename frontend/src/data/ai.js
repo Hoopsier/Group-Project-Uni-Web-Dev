@@ -6,7 +6,7 @@ const sendPrompt = async (prompt) => {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        prompt: prompt
+        prompt
       })
     })
     if (!res.ok) {
