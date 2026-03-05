@@ -1,8 +1,9 @@
-import { useEffect } from "react"
-import { sendPrompt } from "../data/ai.js"
+import { useState } from "react"
+import sendPrompt from "../data/ai.js"
 ///The prompt window
 export default function AI_Chat() {
-  const [prompt, setPrompt] = useEffect("")
+  const [prompt, setPrompt] = useState("")
+  const [result, setResult] = useState("")
   return (
     <div>
       <input type="text"
@@ -11,9 +12,10 @@ export default function AI_Chat() {
         onChange={(e) => setPrompt(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter")
-            sendPrompt(prompt);
+            setResult(sendPrompt(prompt))
         }}
       />
+      <p>{result}</p>
     </div>
   )
 }
