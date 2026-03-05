@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -15,23 +15,26 @@ import RestaurantPage from "./pages/RestaurantPage";
 function App() {
   return (
   <CartProvider>
-    <Router>
-      <Navbar />
-      <CartView />
-      <Routes>
-        <Route path="/restaurants/:restaurantId" element={<RestaurantPage />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/restaurant-view" element={<RestaurantView />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/restaurant-register" element={<RestaurantRegister />} />
-        <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/checkout" element={<Checkout />} />
-      </Routes>
-      <Footer />
-    </Router>
-    </CartProvider>
-  );
+    <Navbar />
+
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/restaurants/:restaurantId" element={<RestaurantPage />} />
+
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+
+      <Route path="/restaurant-view" element={<RestaurantView />} />
+      <Route path="/restaurant-register" element={<RestaurantRegister />} />
+
+      <Route path="/user-profile" element={<UserProfile />} />
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/cart" element={<CartView />} />
+    </Routes>
+
+    <Footer />
+  </CartProvider>
+);
 }
 
 export default App;
