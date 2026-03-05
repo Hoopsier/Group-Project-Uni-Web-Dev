@@ -10,6 +10,7 @@ import RestaurantRegister from "./pages/RestaurantRegister";
 import UserProfile from "./pages/UserProfile";
 import Checkout from "./pages/Checkout";
 import CartView from "./pages/CartView";
+import RestaurantPage from "./pages/RestaurantPage";
 import { CartProvider } from "./Cartcontext/CartContext";
 import { AuthProvider } from "./AuthContext";
 
@@ -31,6 +32,7 @@ function App() {
             />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/restaurants/:restaurantId" element={<RestaurantPage />} />
           </Routes>
           <Footer />
         </Router>

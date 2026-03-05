@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'yumdrop_restaurants_v1';
+
 import pizzaCover from '../assets/restaurants/pizza-palace.jpg';
 import burgerCover from '../assets/restaurants/burger-house.jpg';
 import healthyCover from '../assets/restaurants/healthy-bowl.jpg';
@@ -96,7 +97,7 @@ const seed = [
           image: friesImg,
         },
         {
-          id: 'cola',
+          id: 'cola2',
           tab: 'Drinks',
           name: 'Cola',
           desc: '500ml',
@@ -223,6 +224,7 @@ export function addRestaurant(restaurantInput) {
     eta: restaurantInput.eta ?? '30–40 min',
     deliveryFee: restaurantInput.deliveryFee ?? '$0.00',
     isClosed: restaurantInput.isClosed ?? false,
+    coverImage: restaurantInput.coverImage ?? null,
     menu: restaurantInput.menu ?? { tabs: ['All Items'], items: [] },
   };
 
