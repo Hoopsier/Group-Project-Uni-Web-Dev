@@ -10,6 +10,8 @@ import ramenImg from '../assets/menu/ramen.jpg';
 import gyozaImg from '../assets/menu/gyoza.jpg';
 import garlicimg from '../assets/menu/garlicimg.jpg';
 import colaImg from '../assets/menu/colaImg.jpg';
+import friesImg from '../assets/menu/friesImg.jpg';
+import classicBurgerImg from '../assets/menu/classicBurgerImg.jpg';
 
 const seed = [
   {
@@ -79,6 +81,7 @@ const seed = [
           name: 'Classic Burger',
           desc: 'Beef, cheese, pickles',
           price: 11.5,
+          image: classicBurgerImg,
         },
         {
           id: 'fries',
@@ -86,13 +89,15 @@ const seed = [
           name: 'Fries',
           desc: 'Crispy fries',
           price: 3.5,
+          image: friesImg,
         },
         {
-          id: 'water',
+          id: 'cola',
           tab: 'Drinks',
-          name: 'Water',
+          name: 'Cola',
           desc: '500ml',
           price: 2.0,
+          image: colaImg,
         },
       ],
     },
