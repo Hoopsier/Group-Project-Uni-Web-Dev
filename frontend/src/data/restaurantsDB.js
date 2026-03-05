@@ -106,6 +106,7 @@ const seed = [
     eta: '30–40 min',
     deliveryFee: '$3.49',
     isClosed: false,
+    coverImage: healthyCover,
     menu: {
       tabs: ['All Items', 'Bowls', 'Drinks'],
       items: [
@@ -142,6 +143,7 @@ const seed = [
     eta: '35–45 min',
     deliveryFee: '$3.49',
     isClosed: false,
+    coverImage: asianCover,
     menu: {
       tabs: ['All Items', 'Mains', 'Starters', 'Drinks'],
       items: [
