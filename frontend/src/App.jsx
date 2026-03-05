@@ -13,6 +13,7 @@ import Checkout from "./pages/Checkout";
 import CartView from "./pages/CartView";
 import { CartProvider } from "./Cartcontext/CartContext";
 import RestaurantPage from "./pages/RestaurantPage";
+import { AuthProvider } from "./AuthContext";
 
 function App() {
   return (
