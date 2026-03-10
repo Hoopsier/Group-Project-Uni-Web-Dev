@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import RestaurantView from "./pages/RestaurantView";
+import RestaurantPage from "./pages/RestaurantPage";
 import SignUp from "./pages/SignUp";
 import RestaurantRegister from "./pages/RestaurantRegister";
 import UserProfile from "./pages/UserProfile";
@@ -22,13 +23,11 @@ function App() {
           <CartView />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/restaurants/:restaurantId" element={<RestaurantPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/restaurant-view" element={<RestaurantView />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route
-              path="/restaurant-register"
-              element={<RestaurantRegister />}
-            />
+            <Route path="/restaurant-register" element={<RestaurantRegister />} />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/checkout" element={<Checkout />} />
           </Routes>

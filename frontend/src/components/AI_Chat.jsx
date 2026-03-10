@@ -8,10 +8,10 @@ export default function AI_Chat() {
   const navigate = useNavigate()
   return (
     <div>
-      <p>Result: {(result !== "" && result != null) && (<button onClick={() => {
+      <p>Result: {result && (<button onClick={() => {
         console.log("should nav to", result)
-        navigate(`/${result}`)
-      }}>Go To Resaurant</button>)}</p>
+        navigate(`/restaurants/${result}`)
+      }}>Go To Restaurant</button>)}</p>
       <input type="text"
         placeholder='"I crave fastfood"'
         value={prompt}
@@ -24,4 +24,3 @@ export default function AI_Chat() {
     </div>
   )
 }
-

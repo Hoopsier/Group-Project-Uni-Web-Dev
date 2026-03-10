@@ -17,10 +17,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js"
-  },
+ "scripts": {
+  "dev": "nodemon server.js",
+  "start": "node server.js",
+  "seed:restaurants": "node seeds/seedRestaurants.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
