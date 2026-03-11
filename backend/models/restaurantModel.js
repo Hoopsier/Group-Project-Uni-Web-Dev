@@ -153,6 +153,8 @@ const addOne = async (
     return false;
   }
 
+  const safeRatings = Array.isArray(rating_list) ? rating_list.map(Number).filter(n => !Number.isNaN(n) && n >= 0 && n <= 5) : [];
+
   const newRestaurant = new Restaurant({
     name,
     cuisine,
@@ -200,9 +202,9 @@ const updateOneById = async (id, updateData) => {
     if (updateData.coverImage !== undefined)
       restaurant.coverImage = updateData.coverImage;
 
-    if (updateData.ratings !== undefined) {
-      const safeRatings = updateData.ratings;
-      restaurant.ratings = safeRatings;
+    if (updateData.rating_list !== undefined) {
+      const safeRatings = Array.isArray(updateData.rating_list) ? updateData.rating_list.map(Number).filter(n => !Number.isNaN(n) && n >= 0 && n <= 5) : [];
+      restaurant.rating_list = safeRatings;
     }
 
     await restaurant.save();

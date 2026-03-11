@@ -1,7 +1,7 @@
 /// Returns a restaurant id by asking the backend AI route.
 const sendPrompt = async (prompt) => {
   try {
-    const res = await fetch('/api/ai', {
+    const res = await fetch('http://localhost:4000/api/ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt }),
