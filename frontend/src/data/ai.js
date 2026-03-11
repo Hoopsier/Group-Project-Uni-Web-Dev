@@ -1,23 +1,23 @@
-/// returns restaurant object route by asking the AI for a restaurant
-//  Example: await sendPrompt({ prompt: "I want some pizza" })
+/// Returns a restaurant id by asking the backend AI route.
 const sendPrompt = async (prompt) => {
   try {
-    const res = await fetch("/api/ai", {
-      method: "POST",
+    const res = await fetch('http://localhost:4000/api/ai', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        prompt
-      })
-    })
+      body: JSON.stringify({ prompt }),
+    });
+
     if (!res.ok) {
-      throw new Error('HTTP error:', res.status)
+      const errorText = await res.text();
+      throw new Error(`HTTP ${res.status}: ${errorText}`);
     }
+
     const { output } = await res.json();
     return output;
+  } catch (e) {
+    console.error('AI ERROR:', e);
+    return null;
   }
-  catch (e) {
-    console.error("AI ERROR: " + e)
-    return null
-  }
-}
-export default sendPrompt
+};
+
+export default sendPrompt;
