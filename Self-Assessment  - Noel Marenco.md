@@ -18,17 +18,15 @@
   - [x] I tried to keep the code organized and separate responsibilities better.  
 
 - **Comments and Documentation**
-  - [ ] I did not add a lot of comments or documentation yet.  
   - [x] I understand the parts I worked on and can explain them.  
-  - [ ] I know I should improve this so the team can follow my work more easily.  
+  - [x] I know I should improve this so the team can follow my work more easily.  
 
 ---
 
 ### 3. Performance
 - **Efficiency**
   - [x] The pages and components I worked on are functional and useful for the project.  
-  - [ ] Performance was not my main focus during this sprint.  
-  - [ ] There is still room to improve once all backend connections are fully working.  
+  - [x] There is still room to improve once all backend connections are fully working.  
 
 ---
 
